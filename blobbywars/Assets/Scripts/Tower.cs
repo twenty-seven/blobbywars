@@ -27,10 +27,12 @@ namespace BlobWars
 
 		//Audio
 		public AudioClip openDoorAudio;
+
+
+
 		void Start ()
 		{
 			base.Start ();
-			currentHealth = maxHealth;
 			// Create 'unique' name for tower
 			uid = "Player" + GetComponent<NetworkIdentity> ().netId;
 			gameObject.transform.name = uid;
@@ -38,14 +40,14 @@ namespace BlobWars
 			if (isLocalPlayer) {
 				Debug.Log ("Local Tower Spawned." + transform.name);
 				selector = (GameObject)Instantiate (SelectorPrefab, transform.position, Quaternion.identity);
-				selector.GetComponent<Selector> ().towerUID = transform.name;
+				selector.GetComponent<Selector> ().towerUID = this.uid;
 
 				GameObject imgTarget = GameObject.Find ("ImageTarget");
 				if (imgTarget != null) {
 					selector.transform.parent = imgTarget.transform;
 				}
 
-				
+				//Existiert nicht^^
 				GameObject selectBtn = GameObject.Find ("selBtn");
 				if (selectBtn != null) {
 					selectBtn.GetComponent<Button> ().interactable = true;
@@ -63,7 +65,6 @@ namespace BlobWars
 		void Update ()
 		{
 			//TODO: change to actual spawning behaviour ... this is for testing.
-			//spawn soldier when there is space ... go through types :)
 			if (isServer) {
 				if (numSoldiers < maxSoldiers && Time.time > spawnTime) {
 
@@ -75,6 +76,27 @@ namespace BlobWars
 					CmdSpawnSoldier (soldierTypeTester, transform.position);
 				}
 			}
+		}
+
+		[Server]
+		private GameObject GetSoldierForType(int type) {
+			// Create, name and spawn the object on the server
+			GameObject prefab = null;
+			switch (type) {
+			case fighter:
+				prefab = FighterPrefab;
+				break;
+			case ranged:
+				prefab = RangedPrefab;
+				break;
+			case artillery: 
+				prefab = ArtilleryPrefab;
+				break;
+			default:
+				prefab = FighterPrefab;
+				break;
+			}
+			return prefab;
 		}
 
 		/// <summary>
@@ -93,26 +115,11 @@ namespace BlobWars
 				}
 			}
 
-			// Create, name and spawn the object on the server
-			GameObject prefab = null;
-			switch (type) {
-			case fighter:
-				prefab = FighterPrefab;
-				break;
-			case ranged:
-				prefab = RangedPrefab;
-				break;
-			case artillery: 
-				prefab = ArtilleryPrefab;
-				break;
-			default:
-				prefab = FighterPrefab;
-				break;
-			}
+			GameObject prefab = GetSoldierForType (type);
 
 			GameObject blob = (GameObject)Instantiate (prefab, location, Quaternion.identity);
 
-			blob.GetComponent<Blob> ().towerName = uid;
+			blob.GetComponent<Blob> ().towerUID = this.uid;
 				
 			GameObject imgTarget = GameObject.Find ("ImageTarget");
 			if (imgTarget != null) {

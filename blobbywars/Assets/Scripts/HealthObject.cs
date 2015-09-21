@@ -29,7 +29,6 @@ namespace BlobWars {
 		public void Start() {
 			aSource = GetComponent<AudioSource> ();
 			currentHealth = maxHealth;
-
 		}
 
 		// Calculates Damage on the Server and distributes it accordingly

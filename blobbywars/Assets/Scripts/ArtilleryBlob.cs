@@ -25,12 +25,16 @@ namespace BlobWars
 			Rpc_DoAttack ();
 
 			MoveTo (transform.position);
-			GameObject attackBall = (GameObject)Instantiate (AttackBallPrefab, transform.position, transform.rotation);
-				
-			attackBall.GetComponent<AttackBall> ().Attack (enemy.transform.position, this.damage, this.uid);
+
+			Vector3 attackBallPosition = new Vector3 (transform.position.x,transform.position.y+10,transform.position.z);
+
+			GameObject attackBall = (GameObject)Instantiate (AttackBallPrefab, attackBallPosition, transform.rotation);
+
+
+			Vector3 attackBallDest= new Vector3 (enemy.transform.position.x,enemy.transform.position.y+10,enemy.transform.position.z);
+			attackBall.GetComponent<AttackBall> ().Attack (attackBallDest, this.damage, this.uid);
 
 			NetworkServer.Spawn (attackBall);
-			
 		}
 	}
 }

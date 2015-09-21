@@ -56,7 +56,7 @@ namespace BlobWars
 		// Only sync the name, the object can be fetched later
 		[SyncVar]
 		public string
-			towerName;
+			towerUID;
 		public GameObject tower;
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace BlobWars
 		/// </summary>
 		public AudioClip moveAudio;
 
-		//public GameObject AttackBallPrefab;
+		private bool debug = false;
 
 		void Awake ()
 		{
@@ -86,17 +86,16 @@ namespace BlobWars
 		public void Start ()
 		{
 			base.Start ();
-			// Set up unique ID, current Healthpoints and the attack speed
-			currentHealth = maxHealth;
+			// Set up unique ID and the attack speed
 			nextTime = Time.time + attackSpeed;
-			uid = towerName + "." + GetComponent<NetworkIdentity> ().netId.ToString ();
+			uid = towerUID + "." + GetComponent<NetworkIdentity> ().netId.ToString ();
 			transform.name = uid;
 			//offset.y = .785f;
 			slAnim = GetComponent<SlimeAnim> ();
 			// Keep them from jumping to 0,0,0
 			syncDestination = transform.position;
 			// My commanding tower
-			tower = GameObject.Find (towerName);
+			tower = GameObject.Find (towerUID);
 			// The Object steps out of the tower
 			if (Vector3.Equals (stepOut, Vector3.zero)) {
 				if (tower.transform.position.z < 0) {
@@ -132,12 +131,12 @@ namespace BlobWars
 				for (var d = 0; d  < Blobs.Length; d++) {
 					Blob blob = Blobs [d].GetComponent<Blob> ();
 					// Skip my own blobs
-					if (blob == null || blob.towerName == null) {
+					if (blob == null || blob.towerUID == null) {
 						Debug.Log ("Error");
 						continue;
 					}
-					if (blob.towerName == towerName) {
-						//continue;
+					if (blob.towerUID == towerUID && !debug) {
+						continue;
 					}
 					if (blob.uid == this.uid) {
 						continue;
@@ -158,7 +157,7 @@ namespace BlobWars
 				if (enemyTower == null) {
 					GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 					for (int i = 0; i < players.Length; i++) {
-						if (players [i].name != this.towerName) {
+						if (players [i].name != this.towerUID) {
 							enemyTower = players [i].GetComponent<Tower> ().gameObject;
 						}
 					} 
