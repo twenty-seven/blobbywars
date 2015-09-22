@@ -34,14 +34,6 @@ namespace BlobWars
 			Button selBtn = GameObject.Find ("SelectButton").GetComponent<Button> ();
 			selBtn.onClick.AddListener (() => {
 				TriggerSelect ();});
-
-
-			Button button = GameObject.Find ("Button").GetComponent<Button> ();
-			selBtn.onClick.AddListener (() => {
-				editorDebug = !editorDebug;
-			});
-
-
 		}
 		
 		// 

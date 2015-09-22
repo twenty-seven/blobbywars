@@ -19,7 +19,7 @@ namespace BlobWars
 		protected override void Attack (GameObject enemy)
 		{
 			// TODO: Move closer to enemy blob before attack
-			nextTime = Time.time + attackSpeed;
+			nextAttackTime = Time.time + attackSpeed;
 			transform.LookAt (enemy.transform.position);
 			
 			Rpc_DoAttack ();

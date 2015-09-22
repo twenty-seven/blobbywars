@@ -99,7 +99,6 @@ public class TowerAnim : NetworkBehaviour {
 
 
 	void Update () {
-		if (GetComponent<BlobWars.Tower> ().isClient) {
 			currentTowerHealth = h.currentHealth;
 			float percentageHealth = currentTowerHealth / maxTowerHealth;
 			if (!broken1 && percentageHealth < 0.95) {
@@ -195,11 +194,13 @@ public class TowerAnim : NetworkBehaviour {
 		break17Anim.SetTrigger("break");
 		break18Anim.SetTrigger("break");
 		*/
+
+		/*
 			if (doorsOpen) {
 				openDoors ();
 			} else {
 				closeDoors ();
 			}
-		}
+			*/
 	}
 }

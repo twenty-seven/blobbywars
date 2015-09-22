@@ -145,7 +145,7 @@ namespace BlobWars
 		[ClientRpc]
 		void Rpc_TriggerDoor ()
 		{
-			GetComponent<TowerAnim> ().doorsOpen = true;
+			GetComponent<TowerAnim> ().openDoors ();// = true;
 		}
 
 		/// <summary>
@@ -154,7 +154,8 @@ namespace BlobWars
 		[ClientRpc]
 		public void Rpc_TriggerCloseDoor ()
 		{
-			GetComponent<TowerAnim> ().doorsOpen = false;
+			Debug.Log ("CloseDoors");
+			GetComponent<TowerAnim> ().closeDoors ();// = false;
 		}
 
 
