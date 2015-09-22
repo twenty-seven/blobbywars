@@ -23,22 +23,21 @@ namespace BlobWars
 
 		private int damage;
 
-		string blobUid;
-
 		string blobTag;
 		int damageRadius;
 
 		/// <summary>
-		/// Attacks at the specified location with damage.
+		/// Attacks at the specified location.
 		/// </summary>
-		/// <param name="location">Location.</param>
-		/// <param name="damage">Damage.</param>
+		/// <param name="location">Location to attack.</param>
+		/// <param name="damage">Damage to attack with.</param>
+		/// <param name="damageRadius">Damage radius.</param>
+		/// <param name="blobTag">Blobs-Tag</param>
 		[Server]
-		public void Attack (Vector3 location, int damage,int damageRadius, string blobUid, string blobTag)
+		public void Attack (Vector3 location, int damage,int damageRadius, string blobTag)
 		{
 			this.damage = damage;
 			this.destination = location;
-			this.blobUid = blobUid;
 			this.blobTag = blobTag;
 			this.damageRadius = damageRadius;
 		}
@@ -64,12 +63,15 @@ namespace BlobWars
 			NetworkServer.Destroy (this.gameObject);
 		}
 
+
 		[Server]
 		private void StepMove ()
 		{
 			//TODO: flugkurve?
+
+
 			Vector3 movement = destination - transform.position;
-			// Normalise the movement vector and make it proportional to the speed per second.
+
 			movement = movement.normalized * speed * Time.deltaTime;
 
 			if (movement.sqrMagnitude < (destination - transform.position).sqrMagnitude) {
@@ -83,7 +85,6 @@ namespace BlobWars
 
 		void Update ()
 		{
-			// If we're on the server, calculate movement and send it through network
 			if (isServer) {
 				StepMove ();
 			}

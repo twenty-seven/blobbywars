@@ -74,7 +74,7 @@ namespace BlobWars {
 		{	GameObject player;
 			Debug.Log ("Adding Player");
 			// Ensure that client always spawns on client side, host always spawns on server side
-			player = (GameObject)GameObject.Instantiate(playerPrefab, manager.GetStartPosition().transform.position, Quaternion.identity);
+			player = (GameObject)GameObject.Instantiate(playerPrefab, manager.GetStartPosition().transform.position, Quaternion.identity);//manager.GetStartPosition().transform.rotation);
 			player.transform.SetParent(imageTarget);
 
 			//GameObject.Find ("Notification").GetComponent<Text> ().text = "A new Player joined the game.";

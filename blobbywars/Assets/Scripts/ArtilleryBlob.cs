@@ -34,7 +34,7 @@ namespace BlobWars
 
 
 			Vector3 attackBallDest= new Vector3 (enemy.transform.position.x,enemy.transform.position.y+10,enemy.transform.position.z);
-			attackBall.GetComponent<AttackBall> ().Attack (attackBallDest, this.damage, this.DamageRadius, this.uid, this.tag);
+			attackBall.GetComponent<AttackBall> ().Attack (attackBallDest, this.damage, this.DamageRadius, this.tag);
 
 			NetworkServer.Spawn (attackBall);
 		}

@@ -37,8 +37,16 @@ namespace BlobWars
 			uid = "Player" + GetComponent<NetworkIdentity> ().netId;
 			gameObject.transform.name = uid;
 			spawnTime = Time.time + spawnDelay;
+
+			//Turm rotieren, damit Tür zur Mitte zeigt
+			if (this.transform.position.z < 0) {
+				this.transform.RotateAround(this.transform.position,Vector3.up,0);
+			} else {
+				this.transform.RotateAround(this.transform.position,Vector3.up,180);
+			}
+
+
 			if (isLocalPlayer) {
-				Debug.Log ("Local Tower Spawned." + transform.name);
 				selector = (GameObject)Instantiate (SelectorPrefab, transform.position, Quaternion.identity);
 				selector.GetComponent<Selector> ().towerUID = this.uid;
 

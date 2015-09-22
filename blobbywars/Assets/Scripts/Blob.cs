@@ -154,13 +154,17 @@ namespace BlobWars
 				}
 			}
 
-			// Make the object move out of the tower
-			MoveTo (transform.position + stepOut);
+			if (isServer) {
+				// Make the object move out of the tower
+				MoveTo (transform.position + stepOut);
 
-			//Init selector on clients
-			Rpc_initSelector ();
-			Rpc_TriggerCloseDoors ();
+				//Init selector on clients
+				Rpc_initSelector ();
+				Rpc_TriggerCloseDoors ();
+			}
 		}
+
+
 
 
 		/// <summary>
