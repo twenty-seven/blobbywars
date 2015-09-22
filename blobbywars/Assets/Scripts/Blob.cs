@@ -50,7 +50,7 @@ namespace BlobWars
 		/// <summary>
 		/// Time to wait to close doors. 
 		/// </summary>
-		public float doorOpenSeconds = 2.5;
+		public float doorOpenSeconds = 2.5f;
 
 		/// <summary>
 		/// Differentiate between a selected Blob and an unselected Blob (navigation).
