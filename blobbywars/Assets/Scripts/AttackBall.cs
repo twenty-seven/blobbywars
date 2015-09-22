@@ -25,17 +25,22 @@ namespace BlobWars
 
 		string blobUid;
 
+		string blobTag;
+		int damageRadius;
+
 		/// <summary>
 		/// Attacks at the specified location with damage.
 		/// </summary>
 		/// <param name="location">Location.</param>
 		/// <param name="damage">Damage.</param>
 		[Server]
-		public void Attack (Vector3 location, int damage, string blobUid)
+		public void Attack (Vector3 location, int damage,int damageRadius, string blobUid, string blobTag)
 		{
 			this.damage = damage;
 			this.destination = location;
 			this.blobUid = blobUid;
+			this.blobTag = blobTag;
+			this.damageRadius = damageRadius;
 		}
 
 		/// <summary>
@@ -43,9 +48,20 @@ namespace BlobWars
 		/// </summary>
 		[Server]
 		private void Attack() {
-			//Destroy(this.gameObject, 0);
+
+			ArrayList objects = new ArrayList ();
+			objects.AddRange (GameObject.FindGameObjectsWithTag ("Player"));
+			objects.AddRange (GameObject.FindGameObjectsWithTag (blobTag));
+
+			//Allen Schaden zufügen
+			foreach (GameObject gameObject in objects) {
+				if (Vector3.Distance (gameObject.transform.position, this.transform.position) <= damageRadius) {
+					HealthObject healthObject = gameObject.GetComponent<HealthObject> ();
+					healthObject.DamageObject(damage);
+				}
+			}
+
 			NetworkServer.Destroy (this.gameObject);
-			//TODO do damage
 		}
 
 		[Server]
@@ -59,8 +75,8 @@ namespace BlobWars
 			if (movement.sqrMagnitude < (destination - transform.position).sqrMagnitude) {
 				transform.position = transform.position + movement;
 			} else {
-				Attack ();
 				transform.position = destination;
+				Attack ();
 			}
 
 		}

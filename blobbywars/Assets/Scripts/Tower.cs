@@ -154,7 +154,6 @@ namespace BlobWars
 		[ClientRpc]
 		public void Rpc_TriggerCloseDoor ()
 		{
-			Debug.Log ("CloseDoors");
 			GetComponent<TowerAnim> ().closeDoors ();// = false;
 		}
 

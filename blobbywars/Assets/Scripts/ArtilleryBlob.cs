@@ -11,6 +11,8 @@ namespace BlobWars
 		/// </summary>
 		public GameObject AttackBallPrefab;
 
+		public int DamageRadius = 20;
+
 		/// <summary>
 		/// Attack the specified enemy.
 		/// </summary>
@@ -32,7 +34,7 @@ namespace BlobWars
 
 
 			Vector3 attackBallDest= new Vector3 (enemy.transform.position.x,enemy.transform.position.y+10,enemy.transform.position.z);
-			attackBall.GetComponent<AttackBall> ().Attack (attackBallDest, this.damage, this.uid);
+			attackBall.GetComponent<AttackBall> ().Attack (attackBallDest, this.damage, this.DamageRadius, this.uid, this.tag);
 
 			NetworkServer.Spawn (attackBall);
 		}

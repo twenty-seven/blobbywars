@@ -50,7 +50,7 @@ namespace BlobWars
 		/// <summary>
 		/// Time to wait to close doors. 
 		/// </summary>
-		public float doorOpenSeconds = 2,5;
+		public float doorOpenSeconds = 2.5;
 
 		/// <summary>
 		/// Differentiate between a selected Blob and an unselected Blob (navigation).
@@ -415,6 +415,7 @@ namespace BlobWars
 			selectSphere.GetComponent<Renderer> ().material.shader = shader;
 			selectSphere.GetComponent<Renderer> ().material.color = new Color (1, 100, 1, 0.5f);
 			selectSphere.GetComponent<Renderer> ().enabled = false;
+			isSelected = false;
 		}
 
 
