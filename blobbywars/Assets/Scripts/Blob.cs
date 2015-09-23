@@ -102,7 +102,7 @@ namespace BlobWars
 		/// <summary>
 		/// The enemy tower.
 		/// </summary>
-		private GameObject enemyTower;
+		protected GameObject enemyTower;
 
 		/// <summary>
 		/// The attack audio.
@@ -112,11 +112,6 @@ namespace BlobWars
 		/// The move audio.
 		/// </summary>
 		public AudioClip moveAudio;
-
-		/// <summary>
-		/// Used for debugging, if true, every blobs, not only enemys, are attacked.
-		/// </summary>
-		private bool debug = false;
 
 		void Awake ()
 		{
@@ -200,7 +195,12 @@ namespace BlobWars
 			}
 			
 		}
-		  
+		 
+		/// <summary>
+		/// Selects the enemy to attack.
+		/// </summary>
+		/// <returns>The enemy to attack.</returns>
+		[Server]
 		protected virtual GameObject SelectEnemyToAttack() {
 			GameObject[] Blobs = GameObject.FindGameObjectsWithTag (this.tag);
 			
@@ -212,7 +212,7 @@ namespace BlobWars
 					Debug.Log ("Error");
 					continue;
 				}
-				if (blob.towerUID == towerUID && !debug) {
+				if (blob.towerUID == towerUID) {
 					continue;
 				}
 				if (blob.uid == this.uid) {
