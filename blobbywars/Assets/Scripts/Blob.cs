@@ -400,7 +400,11 @@ namespace BlobWars
 		{
 			//Debug.Log (this.uid + "selected");
 			isSelected = b;
-			selectSphere.GetComponent<Renderer> ().enabled = b;
+			if (isSelected) {
+				selectSphere.GetComponent<Renderer> ().material.color = Color.green;
+			} else {
+				selectSphere.GetComponent<Renderer> ().material.color = Color.red;
+			}
 		}
 		
 		/// <summary>
@@ -415,12 +419,13 @@ namespace BlobWars
 			selectSphere.transform.position = transform.position;
 			selectSphere.transform.localScale = new Vector3 (0.3f, 0.1f, 0.3f);
 			//selectSphere.transform.localScale = new Vector3(50,50,50);
-			
-			Shader shader = Shader.Find ("Transparent/Diffuse");
-			selectSphere.GetComponent<Renderer> ().material.shader = shader;
-			selectSphere.GetComponent<Renderer> ().material.color = new Color (1, 100, 1, 0.5f);
-			selectSphere.GetComponent<Renderer> ().enabled = false;
-			isSelected = false;
+
+
+			Material material = new Material (Shader.Find ("Transparent/Diffuse"));
+			material.color = Color.red;
+			selectSphere.GetComponent<Renderer> ().material = material;
+			selectSphere.GetComponent<Renderer> ().enabled = true;
+			setSelected (false);
 		}
 
 
