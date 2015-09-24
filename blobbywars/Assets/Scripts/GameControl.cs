@@ -1,46 +1,66 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
-public class GameControl : MonoBehaviour {
+namespace BlobWars {
+	public class GameControl : NetworkBehaviour {
 
-	GameObject winUI;
+		public GameObject winUI, controls;
+		private Text winText;
+		private bool gameStarted = false;
+		
+		// Use this for initialization
+		void Start () {
+			winText = winUI.transform.Find ("WinText").GetComponent<Text>();
+		}
+		// Update is called once per frame
+		void Update () {
 
-	// Use this for initialization
-	void Start () {
-		winUI = GameObject.Find ("WinScreen");
-	}
-
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	public void WinGame(bool win){
-		GUIText wintxt = GameObject.Find ("WinText").GetComponent<GUIText> ();
-
-		if (win) {
-			wintxt.text = "VICTORY!";
-			wintxt.color = Color.green;
-		} else {
-			wintxt.text = "DEFEAT!";
-			wintxt.color = Color.red;
+			if (CheckWinner ()) {
+				WinGame ();
+			}
 		}
 
-		winUI.SetActive (true);
-		GameObject.Find ("Controls").SetActive (false);
-	}
-
-	public void QuitGame() {
-		NetworkManager nm = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-		if (nm.isNetworkActive) {
-			if(Network.isClient) {
-				nm.StopClient();
-			} else {
-				nm.StopHost();
+		private bool CheckWinner() {
+			GameObject[] winners = GameObject.FindGameObjectsWithTag ("Player");
+			// avoid triggering winner when only one player is connected at the beginning
+			if (!gameStarted && winners.Length > 1) {
+				gameStarted = true;
+			} else if (!gameStarted) {
+				return false;
 			}
-		} else {
-			Application.Quit ();
+			return (winners.Length == 1);
+		}
+
+
+		public void WinGame(){
+			GameObject winner = GameObject.FindGameObjectWithTag ("Player");
+			Tower tWinner = winner.GetComponent<Tower> ();
+			Debug.Log (tWinner.isLocalPlayer);
+			if (tWinner.isLocalPlayer) {
+					winText.text = "VICTORY!";
+					winText.color = Color.green;
+			} else {
+					winText.text = "DEFEAT!";
+					winText.color = Color.red;
+			}
+			
+			winUI.SetActive (true);
+			controls.SetActive (false);
+		}
+
+		public void QuitGame() {
+			NetworkManager nm = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+			if (nm.isNetworkActive) {
+				if(Network.isClient) {
+					nm.StopClient();
+				} else {
+					nm.StopHost();
+				}
+			} else {
+				Application.Quit ();
+			}
 		}
 	}
 }
