@@ -281,6 +281,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0
+        functionName: TriggerStepAudio
+        data: 
+        objectReferenceParameter: {fileID: 101096, guid: 609fddeff37c91842a2188387f0213b3,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

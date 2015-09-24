@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -365,9 +365,10 @@ namespace BlobWars
 		[Client]
 		protected void TriggerWalking(bool isWalking) {
 			slAnim.isWalking = isWalking;
-			if (isWalking) {
-				aSource.PlayOneShot (moveAudio);
-			}
+		}
+		[Client]
+		public void TriggerStepAudio ()  {
+			aSource.PlayOneShot (moveAudio);
 		}
 
 
@@ -397,7 +398,7 @@ namespace BlobWars
 		[Client]
 		public void setSelected (bool b)
 		{
-			Debug.Log (this.uid + "selected");
+			//Debug.Log (this.uid + "selected");
 			isSelected = b;
 			selectSphere.GetComponent<Renderer> ().enabled = b;
 		}

@@ -22,8 +22,8 @@ public class SlimeAnim : NetworkBehaviour {
 	}
 
 	void Update () {
-		if (script == null || script.tower.GetComponent<NetworkIdentity>().isClient
-		    || script.tower.GetComponent<NetworkIdentity>().isServer) {
+		if (script == null || (script.tower != null && (script.tower.GetComponent<NetworkIdentity>().isClient
+		    || script.tower.GetComponent<NetworkIdentity>().isServer))) {
 			if (doAttack) {
 				//Debug.Log ("Attacking");
 				anim.SetTrigger ("Attack");

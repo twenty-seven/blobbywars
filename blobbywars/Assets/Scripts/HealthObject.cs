@@ -57,6 +57,10 @@ namespace BlobWars {
 				StartCoroutine(WaitForDeathAnimation(g));	
 			} else if (g.GetComponent<Tower> () != null) {
 				StartCoroutine(WaitForDeathAnimation(g));
+				GameObject controller = GameObject.Find("Controller");
+				Debug.Log ("Found controller: " + controller);
+				GameControl controlScript = controller.GetComponent<GameControl>();
+				controlScript.WinGame();
 				// End Game here GameController.
 			}
 
